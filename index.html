@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Invitation</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			min-height: 100vh;
+			margin: 0;
+			display: grid;
+			place-items: center;
+			padding: 16px;
+			background: #f1f3f0;
+		}
+
+		main {
+			width: fit-content;
+			max-width: 100%;
+		}
+
+		img {
+			display: block;
+			width: auto;
+			max-width: 100%;
+			max-height: calc(100vh - 120px);
+			height: auto;
+			object-fit: contain;
+		}
+
+		.document-alert {
+			margin-top: 12px;
+			padding: 12px 16px;
+			border-left: 5px solid #f4d328;
+			border-radius: 4px;
+			background: #e4f4e8;
+			color: #145b31;
+			font: 600 16px/1.4 system-ui, sans-serif;
+			text-align: center;
+		}
+
+		@media (max-width: 480px) {
+			.document-alert {
+				font-size: 14px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<main>
+		<img src="Invite_NAP.png" alt="Invitation to attend the Federal Ministry of Environment event in Antalya, Türkiye">
+		<aside class="document-alert" role="note">
+			Scan the QR code to download NAP documents.
+		</aside>
+	</main>
+</body>
+</html>
