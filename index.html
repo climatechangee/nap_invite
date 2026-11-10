@@ -27,7 +27,7 @@
 			display: block;
 			width: auto;
 			max-width: 100%;
-			max-height: calc(100vh - 120px);
+			max-height: calc(100vh - 200px);
 			height: auto;
 			object-fit: contain;
 		}
@@ -43,9 +43,66 @@
 			text-align: center;
 		}
 
+		.document-alert p {
+			margin: 0;
+		}
+
+		.countdown-heading {
+			margin-top: 10px !important;
+			font-size: 12px;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+
+		.countdown-grid {
+			display: grid;
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+			gap: 8px;
+			margin-top: 6px;
+		}
+
+		.time-unit {
+			min-width: 0;
+			padding: 8px 4px;
+			border-radius: 4px;
+			background: #fff;
+			font-variant-numeric: tabular-nums;
+		}
+
+		.time-value,
+		.time-label {
+			display: block;
+		}
+
+		.time-value {
+			font-size: 30px;
+			font-weight: 800;
+			line-height: 1.1;
+		}
+
+		.time-label {
+			margin-top: 3px;
+			font-size: 10px;
+			font-weight: 700;
+			text-transform: uppercase;
+		}
+
+		.countdown-status {
+			margin-top: 10px !important;
+			font-weight: 800;
+		}
+
 		@media (max-width: 480px) {
 			.document-alert {
 				font-size: 14px;
+			}
+
+			.countdown-grid {
+				gap: 5px;
+			}
+
+			.time-value {
+				font-size: 25px;
 			}
 		}
 	</style>
@@ -54,8 +111,49 @@
 	<main>
 		<img src="Invite_NAP.png" alt="Invitation to attend the Federal Ministry of Environment event in Antalya, Türkiye">
 		<aside class="document-alert" role="note">
-			Scan the QR code to download NAP documents.
+			<p>Scan the QR code to download NAP documents.</p>
+			<p class="countdown-heading">Event starts in (Turkey time)</p>
+			<div id="countdown" class="countdown-grid" role="timer" aria-live="off"></div>
 		</aside>
 	</main>
+	<script>
+		const eventStart = new Date('2026-11-13T11:30:00+03:00').getTime();
+		const eventEnd = new Date('2026-11-13T12:30:00+03:00').getTime();
+		const countdown = document.getElementById('countdown');
+
+		function updateCountdown() {
+			const remaining = eventStart - Date.now();
+
+			if (remaining > 0) {
+				const totalSeconds = Math.floor(remaining / 1000);
+				const days = Math.floor(totalSeconds / 86400);
+				const hours = Math.floor((totalSeconds % 86400) / 3600);
+				const minutes = Math.floor((totalSeconds % 3600) / 60);
+				const seconds = totalSeconds % 60;
+				const units = [
+					['Day', days],
+					['Hrs', hours],
+					['Min', minutes],
+					['Sec', seconds]
+				];
+				countdown.className = 'countdown-grid';
+				countdown.innerHTML = units.map(([label, value]) =>
+					`<div class="time-unit"><span class="time-value">${String(value).padStart(2, '0')}</span><span class="time-label">${label}</span></div>`
+				).join('');
+				document.querySelector('.countdown-heading').hidden = false;
+			} else if (Date.now() < eventEnd) {
+				countdown.className = 'countdown-status';
+				countdown.textContent = 'Event in progress (Turkey time)';
+				document.querySelector('.countdown-heading').hidden = true;
+			} else {
+				countdown.className = 'countdown-status';
+				countdown.textContent = 'Event has ended';
+				document.querySelector('.countdown-heading').hidden = true;
+			}
+		}
+
+		updateCountdown();
+		setInterval(updateCountdown, 1000);
+	</script>
 </body>
 </html>
